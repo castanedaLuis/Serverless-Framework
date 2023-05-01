@@ -57,22 +57,39 @@ functions:
       - http:
           path: users/{id}
           method: GET
+          request:
+            parameters:
+              paths:
+                id: true #validamos que si o si el request tenga un id
   create-user:
     handler: createUsers/handler.createUsers
     events:
       - http:
           path: users
           method: POST
+          request:
+            schemas:
+              application/json: ${file(schemas/user-schema.json)}
   update-user:
     handler: updateUsers/handler.updateUsers
     events:
       - http:
           path: users/{id}
           method: PATCH
+          request:
+            parameters:
+              paths:
+                id: true #validamos que si o si el request tenga un id
+            schemas:
+              application/json: ${file(schemas/user-schema.json)}         
   delete-user:
     handler: deleteUsers/handler.deleteUsers
     events:
       - http:
           path: users/{id}
           method: DELETE
+          request:
+            parameters:
+              paths:
+                id: true #validamos que si o si el request tenga un id
 
