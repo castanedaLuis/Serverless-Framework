@@ -1,4 +1,4 @@
-#API-SERVERLESS
+API-SERVERLESS
 Correr la app en local --> serverless offline start --reloadHandler
 
 Necesitamos tener instalado java.
