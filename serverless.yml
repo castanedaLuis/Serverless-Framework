@@ -126,4 +126,13 @@ functions:
             request:
               querystrings:
                 fileName: true
+  thumbGenerator:
+      handler: thumbnail/handler.thumbnailGenerator
+      events:
+        - s3:
+            bucket: bucket-serverless-course-123213
+            event: s3:ObjectCreated:*
+            existing: true
+            rules:
+            - prefix: upload/
 

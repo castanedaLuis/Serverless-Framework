@@ -6,14 +6,15 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "José Luis Castañeda Osornio",
   "license": "ISC",
   "devDependencies": {
     "aws-sdk": "^2.1368.0",
     "serverless": "^3.21.0",
+    "serverless-dynamodb-local": "^0.2.40",
     "serverless-offline": "^12.0.4"
   },
   "dependencies": {
-    "serverless-dynamodb-local": "^0.2.40"
+    "sharp": "^0.32.1"
   }
 }
