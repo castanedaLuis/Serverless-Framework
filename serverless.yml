@@ -9,6 +9,11 @@ provider:
         - Effect: Allow
           Action: 'dynamodb:*'
           Resource: arn:aws:dynamodb:us-east-1:747383222539:table/usersTable
+        - Effect: Allow
+          Action: 's3:*'
+          Resource: arn:aws:s3:::bucket-serverless-course-007/*
+  environment:
+    BUCKET: bucket-serverless-course-007
 
 plugins:
   - serverless-offline	
@@ -112,4 +117,13 @@ functions:
             parameters:
               paths:
                 id: true #validamos que si o si el request tenga un id
+  signedURL:
+      handler: FirmaUrl/handler.signedS3URL
+      events:
+        - http:
+            path: signedurl
+            method: GET
+            request:
+              querystrings:
+                fileName: true
 
