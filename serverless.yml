@@ -80,6 +80,8 @@ resources:
               Principal: '*'
 
 functions:
+  custom-authorizer:
+    handler: authorizer/handler.authorize
   get-user:
     handler: GetUsers/handler.getUsers
     events:
@@ -96,6 +98,9 @@ functions:
     events:
       - http:
           path: users
+          authorizer:
+            name: custom-authorizer
+            resultTtlInSeconds: 15
           method: POST
           request:
             schemas:
