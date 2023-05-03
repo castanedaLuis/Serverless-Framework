@@ -20,10 +20,11 @@ provider:
     SECRET_EGG: ${ssm:/SECRET_EGG}
 
 plugins:
-  - serverless-offline	
+  - serverless-offline
   - serverless-dynamodb-local
+  - serverless-apigateway-service-proxy
+  - serverless-lift
 
-# Para ahorra espacio a la hora de desplegar en la nube
 package: 
   individually: true
   patterns:
@@ -42,6 +43,23 @@ custom:
       migrate: true
     # Uncomment only if you already have a DynamoDB running locally
     # noStart: true
+  apiGatewayServiceProxies:
+    - sqs:
+        path: /likeuser
+        method: post
+        queueName: likequeue
+        cors: true
+        response:
+          template:
+            # `success` is used when the integration response is 200
+            success: |-
+              { "message": "accepted" }
+            # `clientError` is used when the integration response is 400
+            clientError: |-
+              { "message": "there is an error in your request" }
+            # `serverError` is used when the integration response is 500
+            serverError: |-
+              { "message": "there was an error handling your request" }
 
 resources:
   Resources:
@@ -78,6 +96,18 @@ resources:
                 - 's3:GetObject'
               Resource: !Join [ '', [ 'arn:aws:s3:::', !Ref S3Bucket, '/*' ] ]
               Principal: '*'
+
+constructs:
+    sqs-queue:
+        type: queue
+        #batchSize: 1
+        worker:
+            handler: likeuser/handler.likeuser
+            #reservedConcurrency: 1
+        extensions:
+          queue:
+            Properties:
+              QueueName: likequeue
 
 functions:
   custom-authorizer:

@@ -22,5 +22,9 @@ Desplegar la App en la nube
 Para borrar todos los recursos creados por el deploy debes ejecutar:
 -- serverless remove
 
+COMANDOS Serveless:
+    -- sls logs --function "name de la fucnion" --> muestra los logs de la función son necesidad de ir 
+                                                    cloudWach
+
 https://www.serverless.com/plugins/serverless-offline
 https://www.serverless.com/plugins/serverless-dynamodb-local
