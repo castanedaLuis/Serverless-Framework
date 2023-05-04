@@ -24,6 +24,7 @@ plugins:
   - serverless-dynamodb-local
   - serverless-apigateway-service-proxy
   - serverless-lift
+  #- serverless-domain-manager
 
 package: 
   individually: true
@@ -53,7 +54,7 @@ custom:
           template:
             # `success` is used when the integration response is 200
             success: |-
-              { "message": "accepted" }
+              { "message": "Like accepted and sent" }
             # `clientError` is used when the integration response is 400
             clientError: |-
               { "message": "there is an error in your request" }
@@ -112,8 +113,14 @@ constructs:
 functions:
   custom-authorizer:
     handler: authorizer/handler.authorize
+    package:
+      patterns:
+        - "authorizer/handler.js"
   get-user:
     handler: GetUsers/handler.getUsers
+    package:
+      patterns:
+        - "GetUsers/handler.js"
     events:
       - http:
           private: true
@@ -125,6 +132,9 @@ functions:
                 id: true #validamos que si o si el request tenga un id
   create-user:
     handler: createUsers/handler.createUsers
+    package:
+      patterns:
+        - "createUsers/handler.js"
     events:
       - http:
           path: users
@@ -137,6 +147,9 @@ functions:
               application/json: ${file(schemas/user-schema.json)}
   update-user:
     handler: updateUsers/handler.updateUsers
+    package:
+      patterns:
+        - "updateUsers/handler.js"
     events:
       - http:
           path: users/{id}
@@ -149,6 +162,9 @@ functions:
               application/json: ${file(schemas/user-schema.json)}         
   delete-user:
     handler: deleteUsers/handler.deleteUsers
+    package:
+      patterns:
+        - "deleteUsers/handler.js"
     events:
       - http:
           path: users/{id}
@@ -159,6 +175,9 @@ functions:
                 id: true #validamos que si o si el request tenga un id
   signedURL:
       handler: FirmaUrl/handler.signedS3URL
+      package:
+        patterns:
+          - "FirmaUrl/handler.js"
       events:
         - http:
             path: signedurl
